@@ -24,6 +24,18 @@ def bball():
 
     return render_template("seasons.html", seasons=seasons)
 
+@app.route('/fball', methods=['GET', 'POST'])
+def fball():
+    if request.method == 'POST':
+        sortby = request.form['sortby']
+        sortorder = request.form['sortorder']
+        football = model.get_fball_seasons(sortby, sortorder)
+    else:
+        football = model.get_fball_seasons()
+
+    return render_template("football.html", seasons=football)
+
+
 
 @app.route('/hello', methods=['GET', 'POST'])
 def hello():
@@ -39,4 +51,6 @@ def hello():
 
 if __name__ == '__main__':
     model.init_bball()
+    model.init_fball()
+    print(model.get_fball_seasons())
     app.run(debug=True)
